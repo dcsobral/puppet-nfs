@@ -5,6 +5,7 @@ class nfs::server::debian inherits nfs::client::debian {
   }
   
   exec {"reload_nfs_srv":
+    path        => '/sbin:/usr/sbin:/bin:/usr/bin',
     command     => "/etc/init.d/nfs-kernel-server reload",
     refreshonly => true,
     require     => Package["nfs-kernel-server"]

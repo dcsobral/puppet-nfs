@@ -26,11 +26,12 @@ define nfs::mount($ensure=present,
   case $ensure {
     present: {
       exec {"create ${mountpoint} and parents":
+        path    => '/sbin:/usr/sbin:/bin:/usr/bin',
         command => "mkdir -p ${mountpoint}",
         unless  => "test -d ${mountpoint}",
       }
       Mount["shared $share by $server"] {
-        require => [Exec["create ${mountpoint} and parents"], Class["nfs::client"]],
+        require => [Exec["create ${mountpoint} and parents"], Class["nfs::client::debian"]],
         ensure  => mounted,
       }
     }
